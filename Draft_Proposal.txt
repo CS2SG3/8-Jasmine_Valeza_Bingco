@@ -1,0 +1,28 @@
+Calendar for Requirements
+
+Problem Statement:
+Having to meet the demands of the curriculum these days isn't easy. Students struggle with the sheer amount of assignments and requirements that feel like they're being given every second. Relying solely on the people around you to remind you of the requirements isn't enough, its inconsistent; and you can't always trust them. No student is perfect, people forget, and that's human nature; it feels like only a constant reminder will solve this problem.
+
+Project Objectives:
+- Provide a constant reminder to users
+- Help with organisation
+- Improve time management
+
+Planned Features:
+- Calendar-type interface
+- Notification system
+- Light/Dark mode
+- Daily to-do list
+
+Input/Output
+- User will input a requirement into a box of the calendar
+  - Program is expected to save the data and project on the box
+
+- User will input a time for everyday before a deadline
+  - Program is expected to output a notification everyday at that time before the deadline
+
+-User will choose between light/dark mode via switch
+  - Program is expected to change theme
+
+- User will input a list of tasks in a checkbox tab
+  - Program is expected to output the time before the day ends and display the tasks on a checkbox list
