@@ -1,0 +1,5 @@
+# CHANGELOG
+
+## Version v1.0.1 - September 3, 2025
+ - First version of repository.
+ - Made README and Draft Proposal
