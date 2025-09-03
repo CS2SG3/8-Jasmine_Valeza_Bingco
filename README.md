@@ -28,8 +28,8 @@ This is a python program which notifies the user about their undone requirements
          Host birthday party
 3. Enter what to say
 4.   eg.
-5.       Jave's Birthday Emcee
-6. Select date and time for notifications/alarm
+         Jave's Birthday Emcee
+5. Select date and time for notifications/alarm
      eg.
          January 5 - 8, 2026 4:30 PM
 
