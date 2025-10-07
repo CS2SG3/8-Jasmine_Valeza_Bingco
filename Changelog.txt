@@ -2,4 +2,8 @@
 
 ## Version v1.0.1 - September 3, 2025
  - First version of repository.
+
  - Made README and Draft Proposal
+
+## Version v1.0.2 - October 8, 2025
+- Updated draft proposal.
