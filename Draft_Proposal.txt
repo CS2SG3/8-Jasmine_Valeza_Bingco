@@ -1,12 +1,12 @@
-Calendar for Requirements
+CFR: Calendar for Requirements
 
 Problem Statement:
-Having to meet the demands of the curriculum these days isn't easy. Students struggle with the sheer amount of assignments and requirements that feel like they're being given every second. Relying solely on the people around you to remind you of the requirements isn't enough, its inconsistent; and you can't always trust them. No student is perfect, people forget, and that's human nature; it feels like only a constant reminder will solve this problem.
+Having to meet the demands of the curriculum these days is not easy. Students struggle with the sheer amount of assignments and requirements that feel like they are being given every second. Relying solely on the people around you to remind you of the requirements is not enough, it is inconsistent; and you can not always trust them. No student is perfect, people forget, and that is human nature; it feels like only a constant reminder will solve this problem.
 
 Project Objectives:
-- Provide a constant reminder to users
-- Help with organisation
-- Improve time management
+- Provide a constant reminder to users through device notifications.
+- Help with organisation of tasks/requirements by using an input and sorting them by date.
+- Improve time management measured through amount of requirements/ tasks done before the deadline.
 
 Planned Features:
 - Calendar-type interface
@@ -25,4 +25,5 @@ Input/Output
   - Program is expected to change theme
 
 - User will input a list of tasks in a checkbox tab
+
   - Program is expected to output the time before the day ends and display the tasks on a checkbox list
