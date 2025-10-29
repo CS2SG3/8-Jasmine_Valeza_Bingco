@@ -16,7 +16,7 @@ Planned Features:
 - Light/Dark mode
   -This can change the theme of the GUI between dark to light.
 - Daily to-do list
-  -This feature provides the user with the freedom to create their own checklist everyday. This will also work with the notification system. The user can input tasks everyday and will be notified every 
+  -This feature provides the user with the freedom to create their own checklist everyday. This will also work with the notification system. The user can input tasks everyday and will be notified every few hours depending on the input of the user.
 
 Input/Output
 - User will input a requirement into a box of the calendar
@@ -31,4 +31,5 @@ Input/Output
 - User will input a list of tasks in a checkbox tab
 
   - Program is expected to output the time before the day ends and display the tasks on a checkbox list
+
 
