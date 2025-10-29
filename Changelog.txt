@@ -7,3 +7,6 @@
 
 ## Version v1.0.2 - October 8, 2025
 - Updated draft proposal.
+
+## Version v1.0.3b - October 29, 2025
+- Uploaded process flow diagram.
