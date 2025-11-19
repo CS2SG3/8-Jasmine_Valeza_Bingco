@@ -5,7 +5,7 @@ Having to meet the demands of the curriculum these days is not easy. Students st
 
 Project Objectives:
 - Provide a constant reminder to users through device notifications.
-- Help with organisation of tasks/requirements by using an input and sorting them by date.
+- Help with organization of tasks/requirements by using an input and sorting them by date.
 - Improve time management measured through amount of requirements/ tasks done before the deadline.
 
 Planned Features:
@@ -31,5 +31,6 @@ Input/Output
 - User will input a list of tasks in a checkbox tab
 
   - Program is expected to output the time before the day ends and display the tasks on a checkbox list
+
 
 
