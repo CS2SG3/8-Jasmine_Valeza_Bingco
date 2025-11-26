@@ -3,7 +3,10 @@ Timely
 
 Problem Statement
 
-Having to meet the demands of the curriculum these days is not easy. Students struggle with the sheer amount of assignments and requirements that feel like they are being given every second. Relying solely on the people around you to remind you of the requirements is not enough, it is inconsistent; and you cannot always trust them. No student is perfect; people forget, and that is human nature. It feels like only a constant reminder will solve this problem.
+Having to meet the demands of the curriculum these days is not easy. Students struggle with the sheer amount of assignments and requirements that feel  
+like they are being given every second. Relying solely on the people around you to remind you of the requirements is not enough, 
+it is inconsistent; and you cannot always trust them. No student is perfect; people forget, and that is human nature. 
+It feels like only a constant reminder will solve this problem.
 
 
 Project Objectives:
@@ -70,3 +73,4 @@ Input/Output Specifications
 Proposed Solution
 
 To solve the problems mentioned in the problem statement, we will design and develop a Python-based application, not a subscription to an existing web app. The application will be built using Python GUI frameworks and libraries capable of scheduling background notifications. By unifying calendars, reminders, task lists, and accessibility features into a single platform, Timely aims to help students stay organized, avoid forgetting deadlines, and manage their workload more effectively.
+
