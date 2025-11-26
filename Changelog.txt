@@ -12,6 +12,7 @@
 - Uploaded process flow diagram, updated draft proposal.
 
 ## Version v1.0.4 - Novemeber 26, 2025
-- Changed Project Title
+- Changed Project Title, tweaked draft proposal.
+
 
 
