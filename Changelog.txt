@@ -11,4 +11,7 @@
 ## Version v1.0.3 - October 29, 2025
 - Uploaded process flow diagram, updated draft proposal.
 
+## Version v1.0.4 - Novemeber 26, 2025
+- Changed Project Title
+
 
