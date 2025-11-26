@@ -40,7 +40,8 @@ Planned Features
 
 -Notification system
 
-  -This feature will send a notification in time periods the user will input. For example: if the user inputs 7:00 P.M for every day until the deadline, a notification will be sent at the      exact time.
+  -This feature will send a notification in time periods the user will input. For example: if the user inputs 7:00 P.M for every day until the deadline, 
+  a notification will be sent at the exact time.
 
 -Light/Dark mode
 
@@ -48,7 +49,8 @@ Planned Features
 
 -Daily to‑do list
 
-  -This feature provides the user with the freedom to create their own checklist every day. This will also work with the notification system. The user can input tasks every day and will be     notified every few hours depending on their preference.
+  -This feature provides the user with the freedom to create their own checklist every day. This will also work with the notification system. 
+  The user can input tasks every day and will be notified every few hours depending on their preference.
 
 
 Input/Output Specifications
@@ -72,5 +74,9 @@ Input/Output Specifications
 
 Proposed Solution
 
-To solve the problems mentioned in the problem statement, we will design and develop a Python-based application, not a subscription to an existing web app. The application will be built using Python GUI frameworks and libraries capable of scheduling background notifications. By unifying calendars, reminders, task lists, and accessibility features into a single platform, Timely aims to help students stay organized, avoid forgetting deadlines, and manage their workload more effectively.
+To solve the problems mentioned in the problem statement, we will design and develop a Python-based application, 
+not a subscription to an existing web app. The application will be built using Python GUI frameworks and libraries 
+capable of scheduling background notifications. By unifying calendars, reminders, task lists, and accessibility features into a single platform, 
+Timely aims to help students stay organized, avoid forgetting deadlines, and manage their workload more effectively.
+
 
