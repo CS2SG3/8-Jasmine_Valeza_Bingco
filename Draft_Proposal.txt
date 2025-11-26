@@ -1,42 +1,72 @@
 Timely
 
-Problem Statement:
-Having to meet the demands of the curriculum these days is not easy. Students struggle with the sheer amount of assignments and 
-requirements that feel like they are being given every second. 
-Relying solely on the people around you to remind you of the requirements is not enough, it is inconsistent; and you can not always trust them. 
-No student is perfect, people forget, and that is human nature; it feels like only a constant reminder will solve this problem.
+
+Problem Statement
+
+Having to meet the demands of the curriculum these days is not easy. Students struggle with the sheer amount of assignments and requirements that feel like they are being given every second. Relying solely on the people around you to remind you of the requirements is not enough, it is inconsistent; and you cannot always trust them. No student is perfect; people forget, and that is human nature. It feels like only a constant reminder will solve this problem.
+
 
 Project Objectives:
-- Provide a constant reminder to users through device notifications.
-- Help with organization of tasks/requirements by using an input and sorting them by date.
-- Improve time management measured through amount of requirements/ tasks done before the deadline.
 
-Planned Features:
-- Calendar-type interface
+
+General Objective
+
+-To develop a Python-based productivity application that helps students efficiently manage academic requirements by providing organized scheduling tools and consistent device notifications.
+
+
+Specific Objectives
+
+-To design a calendar-based interface where users can input tasks, requirements, and deadlines, with entries automatically saved and displayed on specific dates.
+
+-To implement a notification system that sends daily or periodic reminders at user-defined times until the deadline is reached.
+
+-To develop a task checklist (to-do list) that allows users to list daily activities and receive periodic reminders before the end of the day.
+
+-To incorporate light and dark mode themes that users can switch between depending on their preference.
+
+-To ensure data persistence, enabling all inputs (calendar entries, reminders, tasks, and settings) to be saved and loaded consistently.
+
+-To improve students’ time management by encouraging early completion of requirements through frequent and reliable reminders.
+
+
+Planned Features
+
+-Calendar-type interface
+
   -A page for each month, containing rectangles for each day of the month. The user can input an event for each day.
-- Notification system
-  -This feature will send a notification in time periods the user will input. For example: if user inputs 7:00 P.M for every day until the deadline, a notification will be sent at the exact time.
-- Light/Dark mode
+
+-Notification system
+
+  -This feature will send a notification in time periods the user will input. For example: if the user inputs 7:00 P.M for every day until the deadline, a notification will be sent at the      exact time.
+
+-Light/Dark mode
+
   -This can change the theme of the GUI between dark to light.
-- Daily to-do list
-  -This feature provides the user with the freedom to create their own checklist everyday. This will also work with the notification system. The user can input tasks everyday and will be notified every few hours depending on the input of the user.
 
-Input/Output
-- User will input a requirement into a box of the calendar
-  - Program is expected to save the data and project on the box
+-Daily to‑do list
 
-- User will input a time for everyday before a deadline
-  - Program is expected to output a notification everyday at that time before the deadline
-
--User will choose between light/dark mode via switch
-  - Program is expected to change theme
-
-- User will input a list of tasks in a checkbox tab
-
-  - Program is expected to output the time before the day ends and display the tasks on a checkbox list
+  -This feature provides the user with the freedom to create their own checklist every day. This will also work with the notification system. The user can input tasks every day and will be     notified every few hours depending on their preference.
 
 
+Input/Output Specifications
+
+-User inputs a requirement into a box of the calendar
+
+  -Program is expected to save the data and project it on the corresponding box.
+
+-User inputs a notification time for every day before a deadline
+
+  -Program is expected to output a reminder notification every day at the set time.
+
+-User chooses between light/dark mode via switch
+
+  -Program is expected to change theme.
+
+  -User inputs a list of tasks in a checkbox tab
+
+-Program is expected to display the tasks on a checkbox list and notify the user before the day ends.
 
 
+Proposed Solution
 
-
+To solve the problems mentioned in the problem statement, we will design and develop a Python-based application, not a subscription to an existing web app. The application will be built using Python GUI frameworks and libraries capable of scheduling background notifications. By unifying calendars, reminders, task lists, and accessibility features into a single platform, Timely aims to help students stay organized, avoid forgetting deadlines, and manage their workload more effectively.
