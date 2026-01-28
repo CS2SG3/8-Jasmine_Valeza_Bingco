@@ -1,0 +1,214 @@
+from tkinter import *
+from tkinter import simpledialog, messagebox
+import calendar
+from datetime import datetime
+import json
+import os
+
+# ─── App State ─────────────────────────────
+dark_mode = True
+events = {}   # {(year, month, day): "message"}
+tasks = {}    # {date_str: [tasks]}
+data_file = "timely_data.json"
+
+current_year = datetime.now().year
+current_month = datetime.now().month
+
+# ─── Load / Save Data ──────────────────────
+def load_data():
+    global events, tasks
+    if os.path.exists(data_file):
+        with open(data_file, "r") as f:
+            data = json.load(f)
+            events = {tuple(map(int, k.split("-"))): v for k,v in data.get("events", {}).items()}
+            tasks = data.get("tasks", {})
+
+def save_data():
+    with open(data_file, "w") as f:
+        data = {
+            "events": {"-".join(map(str,k)):v for k,v in events.items()},
+            "tasks": tasks
+        }
+        json.dump(data, f)
+
+# ─── Theme Toggle ─────────────────────────
+def toggle_theme():
+    global dark_mode
+    dark_mode = not dark_mode
+    bg = "#2c2c2c" if dark_mode else "white"
+    fg = "white" if dark_mode else "black"
+    theme_btn.config(text="🌙" if dark_mode else "☀️")
+    content.config(bg=bg)
+    for w in content.winfo_children():
+        try:
+            w.config(bg=bg, fg=fg)
+        except:
+            pass
+    root.config(bg=bg)
+
+# ─── Utility Functions ────────────────────
+def clear_content():
+    for w in content.winfo_children():
+        w.destroy()
+
+def get_date_str(year, month, day):
+    return f"{year}-{month}-{day}"
+
+# ─── Pages ────────────────────────────────
+def show_home():
+    clear_content()
+    Label(content, text="Welcome Home",
+          font=("Segoe UI",28),
+          bg=content["bg"], fg="white" if dark_mode else "black").place(relx=0.5, rely=0.5, anchor="center")
+
+def show_settings():
+    clear_content()
+    Label(content, text="Settings",
+          font=("Segoe UI",24),
+          bg=content["bg"], fg="white" if dark_mode else "black").pack(pady=40)
+
+def show_about():
+    clear_content()
+    Label(content, text="About Us",
+          font=("Segoe UI",24),
+          bg=content["bg"], fg="white" if dark_mode else "black").pack(pady=40)
+
+# ─── To-Do List ───────────────────────────
+def show_todo():
+    clear_content()
+    Label(content, text="Daily To-Do List", font=("Segoe UI",20),
+          bg=content["bg"], fg="white" if dark_mode else "black").pack(pady=10)
+    
+    today = datetime.now().strftime("%Y-%m-%d")
+    if today not in tasks:
+        tasks[today] = []
+
+    task_frame = Frame(content, bg=content["bg"])
+    task_frame.pack(pady=10)
+
+    def add_task():
+        t = simpledialog.askstring("New Task","Enter task:")
+        if t:
+            tasks[today].append({"task": t, "done": False})
+            refresh_tasks()
+            save_data()
+
+    def toggle_done(idx):
+        tasks[today][idx]["done"] = not tasks[today][idx]["done"]
+        refresh_tasks()
+        save_data()
+
+    def refresh_tasks():
+        for w in task_frame.winfo_children():
+            w.destroy()
+        for idx, t in enumerate(tasks[today]):
+            var = BooleanVar(value=t["done"])
+            cb = Checkbutton(task_frame, text=t["task"], variable=var,
+                             bg=content["bg"], fg="white" if dark_mode else "black",
+                             selectcolor=content["bg"],
+                             command=lambda i=idx: toggle_done(i))
+            cb.pack(anchor="w")
+
+    Button(content, text="Add Task", command=add_task,
+           bg="#1e90ff", fg="white").pack(pady=5)
+    refresh_tasks()
+
+# ─── Calendar ─────────────────────────────
+def show_calendar():
+    show_year_view(current_year)
+
+def show_year_view(year):
+    clear_content()
+    header = Frame(content, bg=content["bg"])
+    header.pack(pady=10)
+    Button(header, text="◀", command=lambda: show_year_view(year-1)).pack(side=LEFT)
+    Label(header, text=str(year), font=("Segoe UI",22),
+          bg=content["bg"], fg="white" if dark_mode else "black").pack(side=LEFT,padx=20)
+    Button(header, text="▶", command=lambda: show_year_view(year+1)).pack(side=LEFT)
+
+    grid = Frame(content, bg=content["bg"])
+    grid.pack(expand=True)
+
+    for m in range(1,13):
+        btn = Button(grid, text=calendar.month_name[m],
+                     width=18, height=4,
+                     bg="#3a3a3a" if dark_mode else "#e0e0e0",
+                     fg="white" if dark_mode else "black",
+                     command=lambda mo=m: show_month_view(year, mo))
+        btn.grid(row=(m-1)//3, column=(m-1)%3, padx=10, pady=10)
+
+def show_month_view(year, month):
+    clear_content()
+    header = Frame(content, bg=content["bg"])
+    header.pack(pady=10)
+    Button(header, text="⬅ Year", command=lambda: show_year_view(year)).pack(side=LEFT)
+    Label(header, text=f"{calendar.month_name[month]} {year}",
+          font=("Segoe UI",20),
+          bg=content["bg"], fg="white" if dark_mode else "black").pack(side=LEFT,padx=20)
+
+    cal_frame = Frame(content, bg=content["bg"])
+    cal_frame.pack()
+
+    for i, d in enumerate(["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]):
+        Label(cal_frame, text=d, font=("Segoe UI",12,"bold"),
+              bg=content["bg"], fg="white" if dark_mode else "black",
+              width=10).grid(row=0,column=i)
+
+    for r, week in enumerate(calendar.monthcalendar(year, month), start=1):
+        for c, day in enumerate(week):
+            if day==0:
+                Label(cal_frame,text="",width=10,bg=content["bg"]).grid(row=r,column=c)
+            else:
+                key=(year,month,day)
+                has_event = key in events
+                Button(cal_frame,text=str(day),
+                       width=8,height=2,
+                       bg="#ffd966" if has_event else "#3a3a3a" if dark_mode else "#e0e0e0",
+                       fg="black" if has_event else "white" if dark_mode else "black",
+                       command=lambda d=day: open_day(year,month,d)).grid(row=r,column=c,padx=2,pady=2)
+
+def open_day(year, month, day):
+    key=(year,month,day)
+    msg = simpledialog.askstring("Event", f"Event for {day}/{month}/{year}", initialvalue=events.get(key,""))
+    if msg:
+        events[key]=msg
+    elif key in events:
+        del events[key]
+    save_data()
+    show_month_view(year, month)
+
+# ─── UI Setup ─────────────────────────────
+root = Tk()
+root.title("Timely")
+root.geometry("1080x720")
+root.resizable(False, False)
+
+TOP_BAR_COLOR = "#1e90ff"
+top_bar = Frame(root,bg=TOP_BAR_COLOR,height=60)
+top_bar.pack(fill=X)
+top_bar.pack_propagate(False)
+top_bar.columnconfigure(1,weight=1)
+
+theme_btn = Button(top_bar,text="🌙",font=("Segoe UI",14),bd=0,
+                   bg=TOP_BAR_COLOR,fg="white",command=toggle_theme)
+theme_btn.grid(row=0,column=0,padx=20)
+
+right = Frame(top_bar,bg=TOP_BAR_COLOR)
+right.grid(row=0,column=2,sticky="e",padx=20)
+
+def nav(text,cmd):
+    Button(right,text=text,font=("Segoe UI",13),bd=0,
+           bg=TOP_BAR_COLOR,fg="white",command=cmd).pack(side=LEFT,padx=15)
+
+nav("Home", show_home)
+nav("Settings", show_settings)
+nav("To-Do List", show_todo)
+nav("Calendar", show_calendar)
+nav("About Us", show_about)
+
+content = Frame(root,bg="#2c2c2c")
+content.pack(fill=BOTH,expand=True)
+
+load_data()
+show_home()
+root.mainloop()
