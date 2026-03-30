@@ -1,0 +1,13 @@
+__## Methodology__
+
+Research, design, implementation, and testing were all part of the project's methodical development process. 
+We concentrated on setting up our environment and planning our project during the first phase. GitHub repositories and 
+documentation were used to find inspiration and open-source libraries. The first project structure was then made, along 
+with a development environment. UI development and feature planning were completed during the second stage. A user
+interface that has both dark and light themes was created using research on Python and HTML, and with help from AI. The third
+stage concentrated on design improvement. Visuals with animations were added to the interface. The best way to implement 
+cross-platform notifications was also determined by researching types of notification bots online. We decided on a Telegram bot because it is accessible.
+Finally, the developmen of the main system modules was completed. Scheduling algorithms were used to create a working calendar
+system. For the to-do list and calendar task manager, a task management module with complete CRUD functions (create, read, update, delete) was made.
+Additionally, the notification subsystem was finished and tested to make sure reminders work as intended. Continuous documentation and code review were 
+also done to maintain code quality and meet the project timeline.
