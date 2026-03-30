@@ -29,4 +29,6 @@
 - Added animations
 - Created executable file for app
 - Made app able to run in background
+- Updated install instructions
+- Methodology uploaded
 
