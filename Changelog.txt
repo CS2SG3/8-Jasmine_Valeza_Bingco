@@ -21,5 +21,12 @@
 - Adde light/dark mode
 - Added to-do list
 
-
+## Version 2.0.0 - March 31, 2026
+- Implemented html to python code
+- Finalized Telegram Notification Bot
+- Added login interface
+- Finalized light/dark mode feature
+- Added animations
+- Created executable file for app
+- Made app able to run in background
 
