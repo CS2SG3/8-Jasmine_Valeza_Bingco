@@ -13,10 +13,11 @@ This is a python program which notifies the user about their undone requirements
 - Daily to-do list
 
 ## How to run the program
-1. Download program file
+1. Download program file (.exe)
 2. Execute the program
-3. Agree to terms and conditions
-4. Agree to use notifications
+3. Get Telegram ID from any Telegram user info bot
+4. Login to Timely with Telegram ID
+5. Link notifications
 
 ## Example Run
 1. Select a date
@@ -38,5 +39,13 @@ This is a python program which notifies the user about their undone requirements
   - Jave's Birthday Emcee
 
 ## Contributors
-Student 1: Jave Ivan I. Valeza (Draft Proposal, Program Idea, Title)
-Student 2: Dion Edric A. Bingco (ReadMe, Features, Repository)
+Student 1: Jave Ivan I. Valeza 
+     -Draft Proposal
+     -Program Idea
+     -Title
+     -Python & HTML code
+Student 2: Dion Edric A. Bingco 
+     -ReadMe
+     -Features
+     -Repository
+     -Telegram Bot
