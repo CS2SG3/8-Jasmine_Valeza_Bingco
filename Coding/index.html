@@ -8,56 +8,52 @@
     <style>
         :root { --primary: #add8e6; --bg: #f4f7f6; --card-bg: #ffffff; --text: #2c3e50; --border: #eeeeee; --accent: #4682b4; }
         body.dark { --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --border: #333; --primary: #3498db; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; overflow: hidden; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; }
 
-        #login-shield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 99999; display: flex; align-items: center; justify-content: center; text-align: center; }
+        #login-shield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 99999; display: flex; align-items: center; justify-content: center; }
         .navbar { background: var(--card-bg); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .nav-links a { margin-left: 20px; text-decoration: none; color: var(--text); font-weight: 600; cursor: pointer; opacity: 0.6; }
         .nav-links a.active { opacity: 1; border-bottom: 2px solid var(--primary); }
 
-        .view-section { display: none; padding: 30px; max-width: 1100px; margin: auto; animation: slideUp 0.4s; height: calc(100vh - 100px); overflow-y: auto; }
+        /* FLUID ANIMATIONS */
+        .view-section { display: none; padding: 30px; max-width: 1100px; margin: auto; animation: fadeInSlide 0.5s ease-out; overflow: visible; }
         .view-section.active { display: block; }
+        @keyframes fadeInSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ANIMATIONS & DRAG STYLE */
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        
-        .todo-item { 
-            display: flex; align-items: center; justify-content: space-between; padding: 15px; 
-            background: var(--bg); margin-bottom: 10px; border-radius: 10px;
-            animation: popIn 0.3s ease-out; cursor: grab;
-        }
-        .todo-item:active { cursor: grabbing; }
-        .todo-item.done span { text-decoration: line-through; opacity: 0.5; transition: 0.3s; }
-        .sortable-ghost { opacity: 0.3; border: 2px dashed var(--accent); }
+        .todo-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--card-bg); margin-bottom: 10px; border-radius: 12px; border: 1px solid var(--border); cursor: grab; }
+        .todo-item.done span { text-decoration: line-through; opacity: 0.5; }
 
-        /* CALENDAR */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+        /* CALENDAR GRID */
+        .calendar-header-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 8px; text-align: center; font-weight: bold; opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; position: relative; }
         .day-box { background: var(--card-bg); border: 1px solid var(--border); height: 110px; border-radius: 12px; position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
-        .day-box:hover { border-color: var(--primary); z-index: 10; transform: translateY(-2px); }
-        .day-number { position: absolute; top: 8px; left: 10px; font-size: 0.8rem; font-weight: bold; opacity: 0.4; }
+        .day-box:hover { border-color: var(--accent); background: var(--bg); z-index: 10; }
         
-        .popover { display: none; position: absolute; bottom: 105%; left: 50%; transform: translateX(-50%); width: 260px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 15px; padding: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); z-index: 2000; }
-        .day-box:hover .popover { display: block; }
+        .day-number { position: absolute; top: 8px; right: 10px; font-size: 0.85rem; font-weight: 700; opacity: 0.4; }
+        .task-count { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
 
-        input { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
-        .btn-main { background: var(--primary); border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; color: #2c3e50; }
-        .btn-main:hover { filter: brightness(0.9); }
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .modal-box { background: var(--card-bg); padding: 30px; border-radius: 20px; width: 320px; }
+        #cal-title { margin: 0; cursor: pointer; padding: 5px 15px; border-radius: 8px; transition: 0.2s; }
+        #cal-title:hover { background: var(--primary); color: #2c3e50; }
+
+        .popover { display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); width: 260px; background: var(--card-bg); border: 2px solid var(--primary); border-radius: 15px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; padding-bottom: 25px; margin-bottom: 2px; }
+        .day-box:hover .popover { display: block; animation: fadeInSlide 0.2s ease; }
+        .calendar-grid .day-box:nth-child(-n+14) .popover { bottom: auto; top: 100%; padding-top: 25px; margin-top: 2px; padding-bottom: 15px; }
+
+        .btn-main { background: var(--accent); color: white; border: 2px solid rgba(0,0,0,0.1); padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        input, select { background: var(--bg); color: var(--text); border: 2px solid var(--border); padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 10px; box-sizing: border-box; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-box { background: var(--card-bg); padding: 30px; border-radius: 20px; width: 320px; border: 3px solid var(--primary); }
     </style>
 </head>
 <body>
     {% if not logged_in %}
     <div id="login-shield">
-        <div style="background:var(--card-bg); padding:50px; border-radius:25px; width:340px; box-shadow:0 25px 60px rgba(0,0,0,0.15);">
-            <h1 style="letter-spacing:10px; color:var(--accent); font-size:2.5rem; margin-bottom:10px;">TIMELY</h1>
-            <p style="font-size:0.9rem; opacity:0.6; margin-bottom:30px;">Registration Required</p>
+        <div style="background:var(--card-bg); padding:50px; border-radius:25px; width:340px; box-shadow:0 25px 60px rgba(0,0,0,0.15); border: 2px solid var(--primary); text-align:center;">
+            <h1 style="letter-spacing:8px; color:var(--accent);">TIMELY</h1>
             <form onsubmit="handleLogin(event)">
-                <input type="text" id="login-name" placeholder="Preferred Name" required>
-                <input type="text" id="login-id" placeholder="Telegram Chat ID" required>
-                <button type="submit" class="btn-main">Get Started</button>
+                <input type="text" id="login-name" placeholder="Name" required>
+                <input type="text" id="login-id" placeholder="Telegram ID" required>
+                <button type="submit" class="btn-main" style="width:100%">Register</button>
             </form>
         </div>
     </div>
@@ -70,17 +66,16 @@
             <a onclick="showView('home')" id="l-home" class="active">Home</a>
             <a onclick="showView('tasks')" id="l-tasks">To-Do</a>
             <a onclick="showView('calendar')" id="l-calendar">Calendar</a>
-            <button onclick="exitApp()" style="background:#ff4d4d15; color:#ff4d4d; border:none; padding:8px 18px; border-radius:10px; cursor:pointer; font-weight:bold; margin-left:15px;">Exit</button>
+            <button onclick="exitApp()" style="background:#ff4d4d15; color:#ff4d4d; border:none; padding:8px 18px; border-radius:10px; cursor:pointer; font-weight:bold;">Exit</button>
         </div>
     </nav>
 
     <section id="home" class="view-section active">
-        <div style="height:75vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-            <h1 style="font-size:7rem; font-weight:900; color:var(--accent); margin:0; letter-spacing:20px;">TIMELY</h1>
-            <p style="font-size:2rem; font-weight:600; opacity:0.9; margin-top:15px;">Welcome, {{ user_name }}</p>
-            <p style="margin-top:10px; opacity:0.5; font-size:1rem;">ID: {{ chat_id }}</p>
-            <p style="margin-top:30px; opacity:0.4; font-weight:bold;">{{ today }}</p>
-            <button onclick="logout()" style="margin-top:60px; background:none; border:none; color:var(--accent); cursor:pointer; text-decoration:underline; font-size:0.9rem;">Reset Profile</button>
+        <div style="height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+            <h1 style="font-size:6rem; color:var(--accent); margin:0; letter-spacing:15px;">TIMELY</h1>
+            <p style="font-size:1.8rem; font-weight:600; margin-top:20px;">Welcome, {{ user_name }}</p>
+            <p style="opacity:0.5;">{{ today }}</p>
+            <button onclick="logout()" style="margin-top:30px; background:none; border:none; color:var(--accent); cursor:pointer; text-decoration:underline; font-weight:bold;">Switch Account</button>
         </div>
     </section>
 
@@ -89,13 +84,13 @@
             <h2 style="margin-top:0;">Daily Requirements</h2>
             <form id="todo-form" style="display:flex; gap:12px;">
                 <input type="text" id="todo-input" placeholder="New task..." required>
-                <button type="submit" class="btn-main" style="width:120px;">Add</button>
+                <button type="submit" class="btn-main" style="width:140px;">Add Task</button>
             </form>
             <ul id="todo-list" style="list-style:none; padding:0; margin-top:25px;">
                 {% for task in tasks %}
                 <li class="todo-item {% if task.completed %}done{% endif %}" data-id="{{ task.id }}">
                     <div style="display:flex; align-items:center;">
-                        <input type="checkbox" onclick="toggleTask({{ task.id }})" {% if task.completed %}checked{% endif %} style="width:20px; height:20px; cursor:pointer;">
+                        <input type="checkbox" onclick="toggleTask({{ task.id }})" {% if task.completed %}checked{% endif %} style="width:20px; height:20px;">
                         <span style="margin-left:15px; font-size:1.1rem;">{{ task.content }}</span>
                     </div>
                     <button onclick="deleteItem({{ task.id }}, 'task')" style="color:#ff4d4d; background:none; border:none; cursor:pointer; font-size:1.5rem;">&times;</button>
@@ -108,38 +103,50 @@
     <section id="calendar" class="view-section">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
             <button onclick="changeMonth(curr.p_y, curr.p_m)" class="btn-main" style="width:60px;">&larr;</button>
-            <h2 id="cal-title" style="margin:0; font-size:1.8rem;"></h2>
+            <h2 id="cal-title" onclick="openJumpModal()"></h2>
             <button onclick="changeMonth(curr.n_y, curr.n_m)" class="btn-main" style="width:60px;">&rarr;</button>
+        </div>
+        <div class="calendar-header-row">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
         </div>
         <div id="calendar-grid" class="calendar-grid"></div>
     </section>
 
     <div id="taskModal" class="modal-overlay">
         <div class="modal-box">
-            <h3>Add Reminder</h3>
-            <input type="text" id="m-content" placeholder="Event Description">
+            <h3 style="margin-top:0;">Add Event</h3>
+            <input type="text" id="m-content" placeholder="Description">
             <input type="time" id="m-time">
-            <button onclick="saveEvent()" class="btn-main">Confirm</button>
+            <button onclick="saveEvent()" class="btn-main" style="width:100%">Confirm</button>
             <button onclick="closeModal()" style="background:none; border:none; width:100%; margin-top:15px; cursor:pointer; color:gray;">Cancel</button>
+        </div>
+    </div>
+
+    <div id="jumpModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="margin-top:0;">Go to Date</h3>
+            <select id="jump-month">
+                <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+            </select>
+            <input type="number" id="jump-year" value="2026">
+            <button onclick="executeJump()" class="btn-main" style="width:100%">Jump</button>
+            <button onclick="closeJumpModal()" style="background:none; border:none; width:100%; margin-top:15px; cursor:pointer; color:gray;">Cancel</button>
         </div>
     </div>
 
     <script>
         let curr = { year: {{ now.year }}, month: {{ now.month }} };
         let activeDay = null;
+        let editingId = null;
 
-        // Initialize Drag and Drop
-        const listEl = document.getElementById('todo-list');
-        Sortable.create(listEl, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: async function() {
-                const order = Array.from(listEl.querySelectorAll('.todo-item')).map(item => item.getAttribute('data-id'));
-                await fetch('/reorder_tasks', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ order: order })
-                });
+        Sortable.create(document.getElementById('todo-list'), {
+            animation: 250, 
+            onEnd: async (e) => {
+                const order = Array.from(e.to.querySelectorAll('.todo-item')).map(i => i.getAttribute('data-id'));
+                await fetch('/reorder_tasks', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order: order }) });
             }
         });
 
@@ -152,67 +159,56 @@
         }
 
         async function renderCalendar(y, m) {
-            const res = await fetch(`/calendar_data/${y}/${m}`);
-            curr = await res.json();
+            const res = await fetch(`/calendar_data/${y}/${m}`); curr = await res.json();
             document.getElementById('cal-title').innerText = `${curr.month_name} ${curr.year}`;
             const grid = document.getElementById('calendar-grid'); grid.innerHTML = '';
             curr.cal.forEach(week => week.forEach(d => {
                 const box = document.createElement('div'); box.className = 'day-box';
                 if(d !== 0) {
                     const tasks = curr.events.filter(e => e.day === d);
-                    box.innerHTML = `<span class="day-number">${d}</span>` + (tasks.length ? `<b style="color:var(--accent); font-size:1.8rem;">${tasks.length}</b>` : '');
+                    box.innerHTML = `<span class="day-number">${d}</span>` + (tasks.length ? `<span class="task-count">${tasks.length}</span>` : '');
                     const pop = document.createElement('div'); pop.className = 'popover';
-                    pop.innerHTML = `<strong>${curr.month_name} ${d}</strong><hr style="opacity:0.1;margin:10px 0;">`;
-                    tasks.forEach(t => {
-                        pop.innerHTML += `<div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:8px;">
-                            <span>${t.content} (${t.nice_time})</span>
-                            <span style="display:flex; gap:8px;"><b onclick="deleteItem(${t.id},'cal')" style="color:#ff4d4d;cursor:pointer;">&times;</b></span>
-                        </div>`;
-                    });
-                    const btn = document.createElement('button'); btn.innerText = "+ New"; btn.className="btn-main"; btn.onclick = () => openModal(d);
+                    pop.innerHTML = `<strong>${curr.month_name} ${d}</strong><hr style="opacity:0.1; margin:10px 0;">`;
+                    tasks.forEach(t => pop.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem; margin-bottom:8px;">
+                            <div style="display:flex; flex-direction:column;">
+                                <span style="font-weight:600;">${t.content}</span>
+                                <span style="font-size:0.7rem; opacity:0.6;">⏰ ${t.nice_time}</span>
+                            </div>
+                            <div>
+                                <button onclick="editEvent(${t.id}, '${t.content}', '${t.time}', ${d})" style="background:none; border:none; cursor:pointer; font-size:1rem;">✏️</button>
+                                <b onclick="deleteItem(${t.id},'cal')" style="color:#ff4d4d; cursor:pointer; font-size:1.2rem; margin-left:5px;">&times;</b>
+                            </div>
+                        </div>`);
+                    const btn = document.createElement('button'); btn.innerText = "+ Add Event"; btn.className="btn-main"; btn.style.width="100%"; btn.style.fontSize="0.75rem"; btn.onclick = (e) => { e.stopPropagation(); openModal(d); };
                     pop.appendChild(btn); box.appendChild(pop);
                 }
                 grid.appendChild(box);
             }));
         }
 
-        function openModal(d) { activeDay = d; document.getElementById('taskModal').style.display = 'flex'; }
+        function openModal(d) { editingId = null; activeDay = d; document.getElementById('m-content').value = ""; document.getElementById('m-time').value = "12:00"; document.getElementById('taskModal').querySelector('h3').innerText = "Add Event"; document.getElementById('taskModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
+        function editEvent(id, content, time, day) { editingId = id; activeDay = day; document.getElementById('m-content').value = content; document.getElementById('m-time').value = time; document.getElementById('taskModal').querySelector('h3').innerText = "Edit Event"; document.getElementById('taskModal').style.display = 'flex'; }
 
         async function saveEvent() {
-            const fd = new FormData(); fd.append('content', document.getElementById('m-content').value);
-            fd.append('reminder_time', document.getElementById('m-time').value);
-            fd.append('day', activeDay); fd.append('month', curr.month); fd.append('year', curr.year);
-            await fetch('/add_event', { method: 'POST', body: fd });
-            closeModal(); renderCalendar(curr.year, curr.month);
+            if (editingId) await fetch(`/delete/${editingId}`, { method: 'DELETE' });
+            const fd = new FormData(); fd.append('content', document.getElementById('m-content').value); fd.append('reminder_time', document.getElementById('m-time').value); fd.append('day', activeDay); fd.append('month', curr.month); fd.append('year', curr.year);
+            await fetch('/add_event', { method: 'POST', body: fd }); closeModal(); renderCalendar(curr.year, curr.month);
         }
 
-        async function handleLogin(e) {
-            e.preventDefault(); 
-            const fd = new FormData(); 
-            fd.append('chat_id', document.getElementById('login-id').value);
-            fd.append('name', document.getElementById('login-name').value);
-            await fetch('/save_id', { method: 'POST', body: fd }); 
-            window.location.reload();
-        }
+        function openJumpModal() { document.getElementById('jump-month').value = curr.month; document.getElementById('jump-year').value = curr.year; document.getElementById('jumpModal').style.display = 'flex'; }
+        function closeJumpModal() { document.getElementById('jumpModal').style.display = 'none'; }
+        function executeJump() { renderCalendar(parseInt(document.getElementById('jump-year').value), parseInt(document.getElementById('jump-month').value)); closeJumpModal(); }
 
-        async function logout() { if(confirm("Wipe profile data?")) { const fd = new FormData(); fd.append('chat_id', ''); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); } }
-
+        async function handleLogin(e) { e.preventDefault(); const fd = new FormData(); fd.append('chat_id', document.getElementById('login-id').value); fd.append('name', document.getElementById('login-name').value); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); }
+        async function logout() { if(confirm("Switch Profile?")) { const fd = new FormData(); fd.append('chat_id', ''); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); } }
         async function toggleTask(id) { await fetch(`/toggle_task/${id}`, { method: 'POST' }); document.querySelector(`.todo-item[data-id="${id}"]`).classList.toggle('done'); }
-
-        async function deleteItem(id, type) { 
-            if(confirm("Delete this?")) { 
-                await fetch(`/delete/${id}`, { method: 'DELETE' }); 
-                if(type==='task') document.querySelector(`.todo-item[data-id="${id}"]`).remove(); 
-                else renderCalendar(curr.year, curr.month); 
-            } 
-        }
-
+        async function deleteItem(id, type) { if(confirm("Delete?")) { await fetch(`/delete/${id}`, { method: 'DELETE' }); if(type==='task') document.querySelector(`.todo-item[data-id="${id}"]`).remove(); else renderCalendar(curr.year, curr.month); } }
+        
         document.getElementById('todo-form').onsubmit = async (e) => {
-            e.preventDefault(); const input = document.getElementById('todo-input');
-            const fd = new FormData(); fd.append('content', input.value);
-            const res = await fetch('/tasks', { method: 'POST', body: fd });
-            const d = await res.json();
+            e.preventDefault(); const input = document.getElementById('todo-input'); const fd = new FormData(); fd.append('content', input.value);
+            const res = await fetch('/tasks', { method: 'POST', body: fd }); const d = await res.json();
             const li = document.createElement('li'); li.className="todo-item"; li.setAttribute('data-id', d.id);
             li.innerHTML = `<div style="display:flex;align-items:center;"><input type="checkbox" onclick="toggleTask(${d.id})"><span style="margin-left:15px;font-size:1.1rem;">${d.content}</span></div><button onclick="deleteItem(${d.id},'task')" style="color:#ff4d4d;background:none;border:none;cursor:pointer;font-size:1.5rem;">&times;</button>`;
             document.getElementById('todo-list').appendChild(li); input.value = '';
