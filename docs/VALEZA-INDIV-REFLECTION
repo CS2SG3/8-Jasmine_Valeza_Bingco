@@ -1,0 +1,5 @@
+While working on this project, I learned that there are so many aspects to creating a functional, accessible, and user-friendly app. 
+We used Gemini to help us code the main HTML and Python codes, and we were the ones that implemented everything into one packet, an .exe
+file using PyInstaller. I also realized that making an app isn't enough, I have to consider the people that will use it. We added the
+light/dark mode feature so that people that are sensitive to light are accounted for. We limited user input so that it would be user-friendly
+and easier to use. Limiting user input also limits possible mistakes, so errors will rarely occur.
