@@ -1,0 +1,20 @@
+Reflecting on the development of our task management system, 
+I am proud of how much I've grown by bridging the gap between 
+theoretical concepts and a fully functional application. Building 
+the system from the initial environment setup to a standalone 
+executable using PyInstaller taught me the immense value of structured, 
+iterative project management. One of my most significant technical takeaways 
+was integrating the Telegram API for cross-platform notifications instead of 
+relying on standard local desktop alerts. Figuring out how to seamlessly sync 
+the Python scheduling algorithms with the API and the HTML frontend was challenging, 
+but it showed me firsthand how technical trade-offs like requiring an active internet 
+connection are often necessary to create a more accessible, multi-device user experience.
+
+Beyond the code itself, this project significantly broadened my 
+understanding of computing ethics and user-centric design. 
+Implementing dynamic dark and light modes wasn't just a stylistic choice; 
+it was a deliberate effort to improve accessibility and reduce digital eye strain for our users. 
+Similarly, designing the system to process data locally and only transmit essential reminder data via 
+the API reinforced the importance of protecting user privacy. Ultimately,
+this experience shifted my perspective from simply making a program run to actively
+considering the real-world impact and ethical responsibilities we hold as software creators.
