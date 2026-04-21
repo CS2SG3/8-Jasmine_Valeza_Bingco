@@ -1,5 +1,4 @@
-import sys, os, webbrowser, threading, time, requests, json, calendar, winshell
-from win32com.client import Dispatch
+import sys, os, webbrowser, threading, time, requests, json, calendar
 from threading import Timer
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -66,7 +65,7 @@ def index():
     now = datetime.now(); user_data = get_user_data()
     tasks = Todo.query.filter_by(day=0).order_by(Todo.position.asc()).all()
     return render_template('index.html', tasks=tasks, today=now.strftime("%B %d, %Y"), 
-                           now=now, user_name=user_data.get('name'), 
+                           now=now, user_name=user_data.get('name', 'User'), 
                            chat_id=user_data.get('chat_id'), logged_in=bool(user_data.get('chat_id')))
 
 @app.route('/save_id', methods=['POST'])
@@ -82,6 +81,13 @@ def add_task():
     new_t = Todo(content=request.form.get('content'), day=0, position=max_p + 1)
     db.session.add(new_t); db.session.commit()
     return jsonify({"id": new_t.id, "content": new_t.content})
+
+@app.route('/edit_task/<int:id>', methods=['POST'])
+def edit_task(id):
+    task = Todo.query.get_or_404(id)
+    task.content = request.form.get('content')
+    db.session.commit()
+    return jsonify({"success": True})
 
 @app.route('/toggle_task/<int:id>', methods=['POST'])
 def toggle_task(id):
@@ -107,7 +113,7 @@ def calendar_data(year, month):
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
-    new_e = Todo(content=request.form.get('content'), day=int(request.form.get('day')), 
+    new_e = Todo(content=request.form.get('content'), day=int(request.form.get('day')),
                  month=int(request.form.get('month')), year=int(request.form.get('year')),
                  reminder_time=request.form.get('reminder_time'))
     db.session.add(new_e); db.session.commit(); return jsonify({"success": True})
