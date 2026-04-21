@@ -15,15 +15,13 @@
         .nav-links a { margin-left: 20px; text-decoration: none; color: var(--text); font-weight: 600; cursor: pointer; opacity: 0.6; }
         .nav-links a.active { opacity: 1; border-bottom: 2px solid var(--primary); }
 
-        /* FLUID ANIMATIONS */
-        .view-section { display: none; padding: 30px; max-width: 1100px; margin: auto; animation: fadeInSlide 0.5s ease-out; overflow: visible; }
+        .view-section { display: none; padding: 30px; max-width: 1100px; margin: auto; animation: fadeInSlide 0.5s ease-out; }
         .view-section.active { display: block; }
         @keyframes fadeInSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .todo-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--card-bg); margin-bottom: 10px; border-radius: 12px; border: 1px solid var(--border); cursor: grab; }
-        .todo-item.done span { text-decoration: line-through; opacity: 0.5; }
+        .todo-item.done .task-text { text-decoration: line-through; opacity: 0.5; }
 
-        /* CALENDAR GRID */
         .calendar-header-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 8px; text-align: center; font-weight: bold; opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; position: relative; }
         .day-box { background: var(--card-bg); border: 1px solid var(--border); height: 110px; border-radius: 12px; position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
@@ -32,14 +30,10 @@
         .day-number { position: absolute; top: 8px; right: 10px; font-size: 0.85rem; font-weight: 700; opacity: 0.4; }
         .task-count { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
 
-        #cal-title { margin: 0; cursor: pointer; padding: 5px 15px; border-radius: 8px; transition: 0.2s; }
-        #cal-title:hover { background: var(--primary); color: #2c3e50; }
-
-        .popover { display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); width: 260px; background: var(--card-bg); border: 2px solid var(--primary); border-radius: 15px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; padding-bottom: 25px; margin-bottom: 2px; }
+        .popover { display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); width: 260px; background: var(--card-bg); border: 2px solid var(--primary); border-radius: 15px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; margin-bottom: 2px; }
         .day-box:hover .popover { display: block; animation: fadeInSlide 0.2s ease; }
-        .calendar-grid .day-box:nth-child(-n+14) .popover { bottom: auto; top: 100%; padding-top: 25px; margin-top: 2px; padding-bottom: 15px; }
 
-        .btn-main { background: var(--accent); color: white; border: 2px solid rgba(0,0,0,0.1); padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .btn-main { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
         input, select { background: var(--bg); color: var(--text); border: 2px solid var(--border); padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 10px; box-sizing: border-box; }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
         .modal-box { background: var(--card-bg); padding: 30px; border-radius: 20px; width: 320px; border: 3px solid var(--primary); }
@@ -48,7 +42,7 @@
 <body>
     {% if not logged_in %}
     <div id="login-shield">
-        <div style="background:var(--card-bg); padding:50px; border-radius:25px; width:340px; box-shadow:0 25px 60px rgba(0,0,0,0.15); border: 2px solid var(--primary); text-align:center;">
+        <div style="background:var(--card-bg); padding:50px; border-radius:25px; width:340px; text-align:center; border: 2px solid var(--primary);">
             <h1 style="letter-spacing:8px; color:var(--accent);">TIMELY</h1>
             <form onsubmit="handleLogin(event)">
                 <input type="text" id="login-name" placeholder="Name" required>
@@ -75,7 +69,7 @@
             <h1 style="font-size:6rem; color:var(--accent); margin:0; letter-spacing:15px;">TIMELY</h1>
             <p style="font-size:1.8rem; font-weight:600; margin-top:20px;">Welcome, {{ user_name }}</p>
             <p style="opacity:0.5;">{{ today }}</p>
-            <button onclick="logout()" style="margin-top:30px; background:none; border:none; color:var(--accent); cursor:pointer; text-decoration:underline; font-weight:bold;">Switch Account</button>
+            <button onclick="logout()" style="margin-top:30px; background:none; border:none; color:var(--accent); cursor:pointer; text-decoration:underline;">Switch Account</button>
         </div>
     </section>
 
@@ -84,16 +78,19 @@
             <h2 style="margin-top:0;">Daily Requirements</h2>
             <form id="todo-form" style="display:flex; gap:12px;">
                 <input type="text" id="todo-input" placeholder="New task..." required>
-                <button type="submit" class="btn-main" style="width:140px;">Add Task</button>
+                <button type="submit" class="btn-main">Add</button>
             </form>
             <ul id="todo-list" style="list-style:none; padding:0; margin-top:25px;">
                 {% for task in tasks %}
                 <li class="todo-item {% if task.completed %}done{% endif %}" data-id="{{ task.id }}">
-                    <div style="display:flex; align-items:center;">
+                    <div style="display:flex; align-items:center; flex-grow:1;">
                         <input type="checkbox" onclick="toggleTask({{ task.id }})" {% if task.completed %}checked{% endif %} style="width:20px; height:20px;">
-                        <span style="margin-left:15px; font-size:1.1rem;">{{ task.content }}</span>
+                        <span class="task-text" style="margin-left:15px; font-size:1.1rem;">{{ task.content }}</span>
                     </div>
-                    <button onclick="deleteItem({{ task.id }}, 'task')" style="color:#ff4d4d; background:none; border:none; cursor:pointer; font-size:1.5rem;">&times;</button>
+                    <div>
+                        <button onclick="editTaskPrompt({{ task.id }})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; opacity:0.5;">✏️</button>
+                        <button onclick="deleteItem({{ task.id }}, 'task')" style="color:#ff4d4d; background:none; border:none; cursor:pointer; font-size:1.5rem; margin-left:10px;">&times;</button>
+                    </div>
                 </li>
                 {% endfor %}
             </ul>
@@ -102,9 +99,9 @@
 
     <section id="calendar" class="view-section">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-            <button onclick="changeMonth(curr.p_y, curr.p_m)" class="btn-main" style="width:60px;">&larr;</button>
-            <h2 id="cal-title" onclick="openJumpModal()"></h2>
-            <button onclick="changeMonth(curr.n_y, curr.n_m)" class="btn-main" style="width:60px;">&rarr;</button>
+            <button onclick="changeMonth(curr.p_y, curr.p_m)" class="btn-main">&larr;</button>
+            <h2 id="cal-title" onclick="openJumpModal()" style="cursor:pointer;"></h2>
+            <button onclick="changeMonth(curr.n_y, curr.n_m)" class="btn-main">&rarr;</button>
         </div>
         <div class="calendar-header-row">
             <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
@@ -114,26 +111,11 @@
 
     <div id="taskModal" class="modal-overlay">
         <div class="modal-box">
-            <h3 style="margin-top:0;">Add Event</h3>
+            <h3 id="modal-title">Add Event</h3>
             <input type="text" id="m-content" placeholder="Description">
-            <input type="time" id="m-time">
+            <input type="time" id="m-time" value="12:00">
             <button onclick="saveEvent()" class="btn-main" style="width:100%">Confirm</button>
-            <button onclick="closeModal()" style="background:none; border:none; width:100%; margin-top:15px; cursor:pointer; color:gray;">Cancel</button>
-        </div>
-    </div>
-
-    <div id="jumpModal" class="modal-overlay">
-        <div class="modal-box">
-            <h3 style="margin-top:0;">Go to Date</h3>
-            <select id="jump-month">
-                <option value="1">January</option><option value="2">February</option><option value="3">March</option>
-                <option value="4">April</option><option value="5">May</option><option value="6">June</option>
-                <option value="7">July</option><option value="8">August</option><option value="9">September</option>
-                <option value="10">October</option><option value="11">November</option><option value="12">December</option>
-            </select>
-            <input type="number" id="jump-year" value="2026">
-            <button onclick="executeJump()" class="btn-main" style="width:100%">Jump</button>
-            <button onclick="closeJumpModal()" style="background:none; border:none; width:100%; margin-top:15px; cursor:pointer; color:gray;">Cancel</button>
+            <button onclick="closeModal()" style="background:none; border:none; width:100%; margin-top:10px; cursor:pointer; color:gray;">Cancel</button>
         </div>
     </div>
 
@@ -170,26 +152,59 @@
                     const pop = document.createElement('div'); pop.className = 'popover';
                     pop.innerHTML = `<strong>${curr.month_name} ${d}</strong><hr style="opacity:0.1; margin:10px 0;">`;
                     tasks.forEach(t => pop.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem; margin-bottom:8px;">
-                            <div style="display:flex; flex-direction:column;">
-                                <span style="font-weight:600;">${t.content}</span>
-                                <span style="font-size:0.7rem; opacity:0.6;">⏰ ${t.nice_time}</span>
-                            </div>
-                            <div>
-                                <button onclick="editEvent(${t.id}, '${t.content}', '${t.time}', ${d})" style="background:none; border:none; cursor:pointer; font-size:1rem;">✏️</button>
-                                <b onclick="deleteItem(${t.id},'cal')" style="color:#ff4d4d; cursor:pointer; font-size:1.2rem; margin-left:5px;">&times;</b>
-                            </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
+                            <span>${t.content} <br><small>⏰ ${t.nice_time}</small></span>
+                            <span>
+                                <button onclick="editEvent(${t.id}, '${t.content}', '${t.time}', ${d})" style="background:none; border:none; cursor:pointer;">✏️</button>
+                                <button onclick="deleteItem(${t.id},'cal')" style="color:red; background:none; border:none; cursor:pointer;">&times;</button>
+                            </span>
                         </div>`);
-                    const btn = document.createElement('button'); btn.innerText = "+ Add Event"; btn.className="btn-main"; btn.style.width="100%"; btn.style.fontSize="0.75rem"; btn.onclick = (e) => { e.stopPropagation(); openModal(d); };
+                    const btn = document.createElement('button'); btn.innerText = "+ Event"; btn.className="btn-main"; btn.style.width="100%"; btn.style.fontSize="0.7rem"; btn.onclick = (e) => { e.stopPropagation(); openModal(d); };
                     pop.appendChild(btn); box.appendChild(pop);
                 }
                 grid.appendChild(box);
             }));
         }
 
-        function openModal(d) { editingId = null; activeDay = d; document.getElementById('m-content').value = ""; document.getElementById('m-time').value = "12:00"; document.getElementById('taskModal').querySelector('h3').innerText = "Add Event"; document.getElementById('taskModal').style.display = 'flex'; }
+        // Logic to edit a task WITHOUT refreshing
+        async function editTaskPrompt(id) {
+            const el = document.querySelector(`.todo-item[data-id="${id}"] .task-text`);
+            const newVal = prompt("Update Task:", el.innerText);
+            if(newVal && newVal.trim() !== "") {
+                const fd = new FormData(); fd.append('content', newVal);
+                const res = await fetch(`/edit_task/${id}`, { method:'POST', body: fd });
+                if(res.ok) el.innerText = newVal;
+            }
+        }
+
+        // Logic to add a task WITHOUT refreshing
+        document.getElementById('todo-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('todo-input');
+            const fd = new FormData();
+            fd.append('content', input.value);
+            const res = await fetch('/tasks', { method: 'POST', body: fd });
+            const d = await res.json();
+
+            const li = document.createElement('li');
+            li.className = "todo-item";
+            li.setAttribute('data-id', d.id);
+            li.innerHTML = `
+                <div style="display:flex; align-items:center; flex-grow:1;">
+                    <input type="checkbox" onclick="toggleTask(${d.id})" style="width:20px; height:20px;">
+                    <span class="task-text" style="margin-left:15px; font-size:1.1rem;">${d.content}</span>
+                </div>
+                <div>
+                    <button onclick="editTaskPrompt(${d.id})" style="background:none; border:none; cursor:pointer; font-size:1.1rem; opacity:0.5;">✏️</button>
+                    <button onclick="deleteItem(${d.id}, 'task')" style="color:#ff4d4d; background:none; border:none; cursor:pointer; font-size:1.5rem; margin-left:10px;">&times;</button>
+                </div>`;
+            document.getElementById('todo-list').appendChild(li);
+            input.value = '';
+        };
+
+        function openModal(d) { editingId = null; activeDay = d; document.getElementById('m-content').value = ""; document.getElementById('taskModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
-        function editEvent(id, content, time, day) { editingId = id; activeDay = day; document.getElementById('m-content').value = content; document.getElementById('m-time').value = time; document.getElementById('taskModal').querySelector('h3').innerText = "Edit Event"; document.getElementById('taskModal').style.display = 'flex'; }
+        function editEvent(id, content, time, day) { editingId = id; activeDay = day; document.getElementById('m-content').value = content; document.getElementById('m-time').value = time; document.getElementById('taskModal').style.display = 'flex'; }
 
         async function saveEvent() {
             if (editingId) await fetch(`/delete/${editingId}`, { method: 'DELETE' });
@@ -197,23 +212,10 @@
             await fetch('/add_event', { method: 'POST', body: fd }); closeModal(); renderCalendar(curr.year, curr.month);
         }
 
-        function openJumpModal() { document.getElementById('jump-month').value = curr.month; document.getElementById('jump-year').value = curr.year; document.getElementById('jumpModal').style.display = 'flex'; }
-        function closeJumpModal() { document.getElementById('jumpModal').style.display = 'none'; }
-        function executeJump() { renderCalendar(parseInt(document.getElementById('jump-year').value), parseInt(document.getElementById('jump-month').value)); closeJumpModal(); }
-
-        async function handleLogin(e) { e.preventDefault(); const fd = new FormData(); fd.append('chat_id', document.getElementById('login-id').value); fd.append('name', document.getElementById('login-name').value); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); }
-        async function logout() { if(confirm("Switch Profile?")) { const fd = new FormData(); fd.append('chat_id', ''); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); } }
         async function toggleTask(id) { await fetch(`/toggle_task/${id}`, { method: 'POST' }); document.querySelector(`.todo-item[data-id="${id}"]`).classList.toggle('done'); }
         async function deleteItem(id, type) { if(confirm("Delete?")) { await fetch(`/delete/${id}`, { method: 'DELETE' }); if(type==='task') document.querySelector(`.todo-item[data-id="${id}"]`).remove(); else renderCalendar(curr.year, curr.month); } }
-        
-        document.getElementById('todo-form').onsubmit = async (e) => {
-            e.preventDefault(); const input = document.getElementById('todo-input'); const fd = new FormData(); fd.append('content', input.value);
-            const res = await fetch('/tasks', { method: 'POST', body: fd }); const d = await res.json();
-            const li = document.createElement('li'); li.className="todo-item"; li.setAttribute('data-id', d.id);
-            li.innerHTML = `<div style="display:flex;align-items:center;"><input type="checkbox" onclick="toggleTask(${d.id})"><span style="margin-left:15px;font-size:1.1rem;">${d.content}</span></div><button onclick="deleteItem(${d.id},'task')" style="color:#ff4d4d;background:none;border:none;cursor:pointer;font-size:1.5rem;">&times;</button>`;
-            document.getElementById('todo-list').appendChild(li); input.value = '';
-        };
-
+        async function handleLogin(e) { e.preventDefault(); const fd = new FormData(); fd.append('chat_id', document.getElementById('login-id').value); fd.append('name', document.getElementById('login-name').value); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); }
+        async function logout() { if(confirm("Logout?")) { const fd = new FormData(); fd.append('chat_id', ''); await fetch('/save_id', { method: 'POST', body: fd }); window.location.reload(); } }
         function toggleTheme() { document.body.classList.toggle('dark'); }
         function changeMonth(y, m) { renderCalendar(y, m); }
         function exitApp() { fetch('/shutdown', {method:'POST'}); window.close(); }
