@@ -14,11 +14,25 @@ This is a python program which notifies the user about their undone requirements
 
 ## How to run the program
 1. Download program file (.exe)
-2. Execute the program
-3. Allow Windows to install, ignore warning.
-4. Get Telegram ID from any Telegram user info bot
-5. Login to Timely with Telegram ID
-6. Link notifications
+        - Locate the executable file in our main directory on the repository.
+        - Click on the file.
+        - Download 'raw', after popup in the center of screen.
+3. Execute the program
+        - On the top right, click on the recently downloaded file.
+5. Allow Windows to install, ignore warning.
+        - Click 'More Info', then continue to download.
+7. Get Telegram ID from any Telegram user info bot
+        - Download Telegram on any browser.
+        - Search 'Telegram' in your search engine.
+        - Click on the top link.
+        - Download for your device.
+9. Login to Timely with Telegram ID
+        - From Telegram, search 'userinfobot' in the search bar
+        - Choose any bot
+        - Type '/start'
+        - Copy your ID code
+11. Link notifications
+        - Paste ID code into Timely
 
 ## Example Run
 1. Select a date
